@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/edi-sipka/ChatGPT2.0_React/issues"
   },
-  "homepage": "https://github.com/edi-sipka/ChatGPT2.0_React#readme"
+  "homepage": "https://github.com/edi-sipka/ChatGPT2.0_React#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "openai": "^3.1.0"
+  }
 }
