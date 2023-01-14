@@ -15,11 +15,14 @@ const response = await openai.createCompletion({
     temperature: 0,
 });
 
-
+const bodyParser = require("body-parser")
+const cors = require("cors")
 const app = express()
+app.use(bodyParser.json())
 const port = 3080
 
 app.post("/", async(req,res)=>{
+    const { message } = req.body;
     const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: "Say this is a test",

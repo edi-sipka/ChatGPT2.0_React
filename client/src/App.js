@@ -6,12 +6,30 @@ import {useState} from "react";
 function App() {
 
   const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState([]);
+  const [chatLog, setChatLog] = useState([{
+    user: "gpt",
+    message: "How can I help you?"
+  },{
+    user:"me",
+    message:"I am trying ChatGPT"
+  }]);
 
   async function handleSubmit(e){
     e.preventDefault();
-    setChatLog([...chatČog], {user:"me", message: `${input}`})
+    setChatLog([...chatLog], {user:"me", message: `${input}`})
     setInput("");
+
+    const response = await fetch("http://localhost:3080/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: chatLog.map((message) => message.message).join("")
+      })
+    })
+    const data = await response.json();
+    console.log(data);
 
   }
   return (
@@ -24,24 +42,16 @@ function App() {
     </aside>
     <section className="chatbox">
       <div className="chat-log">
-        <ChatMessage message={message}/>
-        <div className="chat-message chatgpt">
-         <div className="chat-message-center">
-          <div className="avatar chatgpt">
-          
-          </div>
-          <div className="message">
-            I am AI
-            </div>
-          </div>
-        </div>
+      {chatLog.map((message,index)=>(
+        <ChatMessage key={index} message={message}/>
+      ))}
       </div>
       <div className="chat-input-holder">
       <form onSubmit={handleSubmit}>
         <input 
         rows="1"
         value = {input}
-        onChange={() => setInput(e.target.value)}
+        onChange={(e) => setInput(e.target.value)}
         className="chat-input-textarea" 
         ></input>
         </form>
