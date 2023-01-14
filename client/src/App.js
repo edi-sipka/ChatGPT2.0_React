@@ -14,10 +14,19 @@ function App() {
     message:"I am trying ChatGPT"
   }]);
 
+//clear function
+function clearChat(){
+setChatLog([]);
+}
+
+
   async function handleSubmit(e){
     e.preventDefault();
-    setChatLog([...chatLog], {user:"me", message: `${input}`})
-    setInput("");
+
+    let chatLogNew = [...chatLog, { user: "me", message: `${input}`}]
+     setInput("");
+
+const messages = chatLogNew.map((message) => message.message).join("")
 
     const response = await fetch("http://localhost:3080/", {
       method: "POST",
@@ -25,17 +34,17 @@ function App() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: chatLog.map((message) => message.message).join("")
+        message: messages
       })
     })
     const data = await response.json();
-    console.log(data);
+    setChatLog([...chatLog, { user: "gpt", message: `${data.message}`}])
 
   }
   return (
     <div className="App">
     <aside className="sidemenu">
-      <div className="side-menu-button">
+      <div className="side-menu-button" onClick={clearChat}>
       <span> + </span>
         New chat
       </div>
