@@ -25,6 +25,8 @@ setChatLog([]);
 
     let chatLogNew = [...chatLog, { user: "me", message: `${input}`}]
      setInput("");
+     setChatLog([chatLogNew])
+
 
 const messages = chatLogNew.map((message) => message.message).join("")
 
